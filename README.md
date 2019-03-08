@@ -79,3 +79,6 @@ $ curl -X GET -H "Content-Type: application/json" -H "Accept: application/json" 
   ],
   "output": "This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6980)\nentering extended mode\n(main.tex\nLaTeX2e <2018-12-01>\n(/miktex/.miktex/texmfs/install/tex/latex/base/article.cls\nDocument Class: article 2018/09/03 v1.4i Standard LaTeX document class\n(/miktex/.miktex/texmfs/install/tex/latex/base/size10.clo))\nNo file main.aux.\n(test/test.tex) [1{/miktex/.miktex/texmfs/data/pdftex/config/pdftex.map}]\n(/tmp/latex-microservice7693549835677115715/output/main.aux\n(/tmp/latex-microservice7693549835677115715/output/test/test.aux)) )</usr/local\n/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmr10.pfb>\nOutput written on /tmp/latex-microservice7693549835677115715/output/main.pdf (1\n page, 11466 bytes).\nTranscript written on /tmp/latex-microservice7693549835677115715/output/main.lo\ng.\n"
 ```
+
+# Security
+Although `--shell-escape` or `--enable-write18` are not enabled (which would enable running commands from within a TeX file), TeX is a rather mighty language and files in the filesystem can be read and written. Even if deployed as a docker container, the container still can be compromised during the rest of its lifetime.
