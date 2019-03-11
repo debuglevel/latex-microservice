@@ -1,6 +1,6 @@
 package de.debuglevel.latex.domain.latex
 
-import de.debuglevel.latex.rest.latex.RequestFileTransferDTO
+import de.debuglevel.latex.rest.latex.LatexRequestDTO
 import de.debuglevel.latex.rest.latex.StoredFileTransferDTO
 import mu.KotlinLogging
 import java.nio.file.Files
@@ -43,9 +43,9 @@ object DocumentStorage {
         return storedFileTransferDTO
     }
 
-    fun add(fileTransferDto: RequestFileTransferDTO): StoredFileTransferDTO {
+    fun add(latexRequest: LatexRequestDTO): StoredFileTransferDTO {
         val uuid = UUID.randomUUID()
-        val markdownWithUUID = StoredFileTransferDTO(fileTransferDto.files, uuid, null)
+        val markdownWithUUID = StoredFileTransferDTO(latexRequest.files, uuid, null, latexRequest.requiredPackages)
         documents[uuid] = markdownWithUUID
         return markdownWithUUID
     }

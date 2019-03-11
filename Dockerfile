@@ -20,9 +20,10 @@ RUN apt-get update && \
 
 WORKDIR /app
 COPY --from=builder /src/build/libs/*.jar /app/microservice.jar
+COPY docker-entrypoint.sh /app/
 
 # set the default port to 80
 ENV PORT 80
 EXPOSE 80
 
-CMD ["java", "-jar", "/app/microservice.jar"]
+CMD ["/app/docker-entrypoint.sh"]

@@ -6,5 +6,6 @@ import java.util.*
 data class StoredFileTransferDTO(
     val files: Array<FileDTO>,
     val uuid: UUID,
-    val path: Path?
+    val path: Path?,
+    val requiredPackages: Array<String>?
 )

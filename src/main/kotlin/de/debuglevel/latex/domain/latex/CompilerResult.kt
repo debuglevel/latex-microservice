@@ -8,16 +8,25 @@ data class CompilerResult(
     val exitValue: Int,
     val durationMilliseconds: Long,
     val files: Array<Path>,
-    val output: String
+    val output: String,
+    val packagemanagerSuccess: Boolean?,
+    val packagemanagerExitValue: Int?,
+    val packagemanagerDurationMilliseconds: Long?,
+    val packagemanagerOutput: String?
 ) {
     constructor(
-        commandResult: CommandResult,
-        files: Array<Path>
+        latexCommandResult: CommandResult,
+        files: Array<Path>,
+        mpmCommandResult: CommandResult?
     ) : this(
-        commandResult.successful,
-        commandResult.exitValue,
-        commandResult.durationMilliseconds,
+        latexCommandResult.successful,
+        latexCommandResult.exitValue,
+        latexCommandResult.durationMilliseconds,
         files,
-        commandResult.output
+        latexCommandResult.output,
+        mpmCommandResult?.successful,
+        mpmCommandResult?.exitValue,
+        mpmCommandResult?.durationMilliseconds,
+        mpmCommandResult?.output
     )
 }

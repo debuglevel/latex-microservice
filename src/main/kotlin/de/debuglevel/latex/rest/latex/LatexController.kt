@@ -25,8 +25,9 @@ object LatexController {
 
             try {
                 val workingDirectory = storedFileTransfer.path
-                val compilerResult = PdfCompiler.compile(workingDirectory)
-                val fileTransferDto = ResponseFileTransferDTO(
+                val compilerResult =
+                    PdfCompiler.compile(workingDirectory, storedFileTransfer.requiredPackages ?: arrayOf())
+                val fileTransferDto = LatexResponseDTO(
                     compilerResult.success,
                     compilerResult.exitValue,
                     compilerResult.durationMilliseconds,
@@ -58,7 +59,7 @@ object LatexController {
                 type("application/json")
                 "{\"message\":\"${request.contentType()} is not supported.\"}"
             } else {
-                val fileTransferDTO = Gson().fromJson(request.body(), RequestFileTransferDTO::class.java)
+                val fileTransferDTO = Gson().fromJson(request.body(), LatexRequestDTO::class.java)
 
                 val latexWithUUID = DocumentStorage.add(fileTransferDTO)
                 status(201)

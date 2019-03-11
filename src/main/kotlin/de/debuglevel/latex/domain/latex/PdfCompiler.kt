@@ -17,11 +17,25 @@ object PdfCompiler {
      * Compile the "main.tex" LaTeX file in the working directory to PDF.
      * The output will be placed in the directory specified in the 'outputDirectory' constant.
      */
-    fun compile(workingDirectory: Path): CompilerResult {
+    fun compile(workingDirectory: Path, requiredPackages: Array<String>): CompilerResult {
         return try {
             logger.debug { "Compiling LaTeX to PDF..." }
 
-            val commandResult =
+            val mpmCommandResult = if (requiredPackages.any()) {
+                logger.debug { "Ensuring that packages are installed: ${requiredPackages.joinToString(", ")}" }
+                val mpmArguments = requiredPackages
+                    .map { "--require=$it" }
+                    .joinToString(" ")
+
+                Command(
+                    "mpm $mpmArguments",
+                    workingDirectory
+                ).run()
+            } else {
+                null
+            }
+
+            val pdflatexCommandResult =
                 Command(
                     "pdflatex -interaction=nonstopmode -output-directory=$outputDirectory main.tex",
                     workingDirectory
@@ -35,7 +49,7 @@ object PdfCompiler {
 
             logger.debug { "Number of files in output directory: ${files.size}" }
 
-            val compilerResult = CompilerResult(commandResult, files)
+            val compilerResult = CompilerResult(pdflatexCommandResult, files, mpmCommandResult)
 
             logger.debug { "Compiling LaTeX to PDF done." }
             compilerResult

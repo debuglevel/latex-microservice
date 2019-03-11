@@ -28,10 +28,11 @@ $ base64 -w0 test/test.tex
 aGFsbG8gd2VsdA==
 ```
 
-We place their Base64 encoded content in a JSON (Base64 can just be used in JSON without doing any harm and no need to escape).
+We place their Base64 encoded content in a JSON (Base64 can just be used in JSON without doing any harm and no need to escape). We can also define packages (e.g. "12many") to be installed explicitly, if MikTex is unable to download them automatically.
 ```
 $ cat upload.json
 {
+  "requiredPackages": [ "12many" ]
   "files": [
      {
         "name": "main.tex",
