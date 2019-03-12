@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit
 
 class Command(
     val command: String,
-    val workingDirectory: Path
+    val workingDirectory: Path? = null
 ) {
     private val logger = KotlinLogging.logger {}
 
@@ -15,7 +15,7 @@ class Command(
 
         val parts = command.split("\\s".toRegex())
         val processBuilder = ProcessBuilder(*parts.toTypedArray())
-            .directory(workingDirectory.toFile())
+            .directory(workingDirectory?.toFile())
             .redirectOutput(ProcessBuilder.Redirect.PIPE)
             .redirectError(ProcessBuilder.Redirect.PIPE)
 
