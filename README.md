@@ -83,3 +83,7 @@ $ curl -X GET -H "Content-Type: application/json" -H "Accept: application/json" 
 
 # Security
 Although `--shell-escape` or `--enable-write18` are not enabled (which would enable running commands from within a TeX file), TeX is a rather mighty language and files in the filesystem can be read and written. Even if deployed as a docker container, the container still can be compromised during the rest of its lifetime.
+
+# Docker
+## Preinstall packages
+By setting e.g. `INSTALL_PACKAGES=12many a2ping` you can install packages at the startup of the container. This is not necessary, as MikTex will download missing packages while document compilation. But it can speed up compilations by shifting the download at the container startup instead of the document compilation. This might be useful, if you already know which packages will be required by the documents.

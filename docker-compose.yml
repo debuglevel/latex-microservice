@@ -5,3 +5,5 @@ services:
     image: latex-microservice
     ports:
       - "80:80"
+    environment:
+      - INSTALL_PACKAGES=12many a2ping
