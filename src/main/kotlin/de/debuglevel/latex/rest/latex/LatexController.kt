@@ -37,7 +37,11 @@ object LatexController {
                             it.toFile().readBytes().toBase64()
                         )
                     }.toTypedArray(),
-                    compilerResult.output
+                    compilerResult.output,
+                    compilerResult.packagemanagerSuccess,
+                    compilerResult.packagemanagerExitValue,
+                    compilerResult.packagemanagerDurationMilliseconds,
+                    compilerResult.packagemanagerOutput
                 )
 
                 type(contentType = "application/json")

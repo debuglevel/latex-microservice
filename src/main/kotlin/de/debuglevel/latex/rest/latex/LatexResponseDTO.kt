@@ -5,5 +5,9 @@ data class LatexResponseDTO(
     val exitValue: Int,
     val durationMilliseconds: Long,
     val files: Array<FileDTO>,
-    val output: String
+    val output: String,
+    val packagemanagerSuccess: Boolean?,
+    val packagemanagerExitValue: Int?,
+    val packagemanagerDurationMilliseconds: Long?,
+    val packagemanagerOutput: String?
 )

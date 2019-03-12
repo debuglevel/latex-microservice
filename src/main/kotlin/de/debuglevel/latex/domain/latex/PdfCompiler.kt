@@ -18,7 +18,7 @@ object PdfCompiler {
      * Compile the "main.tex" LaTeX file in the working directory to PDF.
      * The output will be placed in the directory specified in the 'outputDirectory' constant.
      */
-    fun compile(workingDirectory: Path, requiredPackages: Array<String>): CompilerResult {
+    fun compile(workingDirectory: Path, requiredPackages: Array<String>): LatexResult {
         return try {
             logger.debug { "Compiling LaTeX to PDF..." }
 
@@ -38,7 +38,7 @@ object PdfCompiler {
 
             logger.debug { "Number of files in output directory: ${files.size}" }
 
-            val compilerResult = CompilerResult(pdflatexCommandResult, files, mpmCommandResult)
+            val compilerResult = LatexResult(pdflatexCommandResult, files, mpmCommandResult)
 
             logger.debug { "Compiling LaTeX to PDF done." }
             compilerResult

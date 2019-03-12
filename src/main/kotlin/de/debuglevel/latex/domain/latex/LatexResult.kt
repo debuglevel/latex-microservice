@@ -3,7 +3,7 @@ package de.debuglevel.latex.domain.latex
 import de.debuglevel.latex.domain.command.CommandResult
 import java.nio.file.Path
 
-data class CompilerResult(
+data class LatexResult(
     val success: Boolean,
     val exitValue: Int,
     val durationMilliseconds: Long,
