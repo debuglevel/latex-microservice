@@ -1,6 +1,7 @@
 package de.debuglevel.latex.domain.latex
 
 import de.debuglevel.latex.domain.command.Command
+import de.debuglevel.latex.domain.mpm.PackageManager
 import mu.KotlinLogging
 import java.nio.file.Files
 import java.nio.file.Path
@@ -21,19 +22,7 @@ object PdfCompiler {
         return try {
             logger.debug { "Compiling LaTeX to PDF..." }
 
-            val mpmCommandResult = if (requiredPackages.any()) {
-                logger.debug { "Ensuring that packages are installed: ${requiredPackages.joinToString(", ")}" }
-                val mpmArguments = requiredPackages
-                    .map { "--require=$it" }
-                    .joinToString(" ")
-
-                Command(
-                    "mpm $mpmArguments",
-                    workingDirectory
-                ).run()
-            } else {
-                null
-            }
+            val mpmCommandResult = PackageManager.install(requiredPackages)
 
             val pdflatexCommandResult =
                 Command(
