@@ -32,7 +32,7 @@ We place their Base64 encoded content in a JSON (Base64 can just be used in JSON
 ```
 $ cat upload.json
 {
-  "requiredPackages": [ "12many" ]
+  "requiredPackages": [ "12many" ],
   "files": [
      {
         "name": "main.tex",
