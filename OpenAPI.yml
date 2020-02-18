@@ -1,0 +1,93 @@
+# this file was manually written, i.e. not generated from code. But it should roughly fit.
+
+openapi: 3.0.0
+info:
+  version: 0.0.4
+  title: LaTeX microservice
+
+paths:
+  /documents/:
+    post:
+      summary: Compile a document
+      operationId: createDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentUpload'
+      responses:
+        '201':
+          description: Null response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: some-long-UUID
+  '/documents/{documentUUID}':
+    get:
+      summary: Get compiled document
+      operationId: getDocumentByUUID
+      parameters:
+        - name: documentUUID
+          in: path
+          required: true
+          description: The UUID of the document to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentDownload'
+components:
+  schemas:
+    DocumentUpload:
+      type: object
+      required:
+        - requiredPackages
+        - files
+      properties:
+        requiredPackages:
+          type: array
+          items:
+            type: string
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+    DocumentDownload:
+      type: object
+      required:
+        - success
+        - exitValue
+        - durationMilliseconds
+        - files
+        - output
+      properties:
+        success:
+          format: boolean
+        exitValue:
+          type: integer
+        durationMilliseconds:
+          type: integer
+          format: int64
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+        output:
+          type: string
+    File:
+      type: object
+      required:
+        - name
+        - base64data
+      properties:
+        name:
+          type: string
+        base64data:
+          type: string
+
