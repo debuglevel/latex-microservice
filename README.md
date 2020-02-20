@@ -1,5 +1,5 @@
 # LaTeX Microservice
-This is a simple REST microservice to compile LaTeX documents.
+This is a simple REST microservice prototype to compile LaTeX documents.
 
 # HTTP API
 Documents have to be POSTed first to the microservice before you can GET them.
@@ -83,6 +83,9 @@ $ curl -X GET -H "Content-Type: application/json" -H "Accept: application/json" 
 
 # Security
 Although `--shell-escape` or `--enable-write18` are not enabled (which would enable running commands from within a TeX file), TeX is a rather mighty language and files in the filesystem can be read and written. Even if deployed as a docker container, the container still can be compromised during the rest of its lifetime.
+
+# Note on production usage of this prototype
+This microservice is rather a prototype than a production-ready software. It especially holds all previous POST requests in memory to serve them on their GET requests (i.e. the requests do not expire and stay in memory until restart). This leads to a increasing memory consumption. While this might be acceptable for a few and small requests, it will likely crash if many and big requests are made. The in-memory database should therefore be replaced with a regular database backend and/or requests should expire. It could also be considered to return the document directly on the POST request (although this would not be very RESTful, it would be an easy option to avoid storing data at all).
 
 # Docker
 ## Preinstall packages
