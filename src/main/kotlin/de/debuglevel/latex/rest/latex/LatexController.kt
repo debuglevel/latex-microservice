@@ -18,40 +18,44 @@ object LatexController {
         return {
             val id = params(":id")
 
-            val storedFileTransfer = DocumentStorage.get(UUID.fromString(id))
-            if (storedFileTransfer.path == null) {
-                throw Exception("Path must not be null")
-            }
+            createDocument(id)
+        }
+    }
 
-            try {
-                val workingDirectory = storedFileTransfer.path
-                val compilerResult =
-                    PdfCompiler.compile(workingDirectory, storedFileTransfer.requiredPackages ?: arrayOf())
-                val fileTransferDto = LatexResponseDTO(
-                    compilerResult.success,
-                    compilerResult.exitValue,
-                    compilerResult.durationMilliseconds,
-                    compilerResult.files.map {
-                        FileDTO(
-                            workingDirectory.relativize(it).toString(),
-                            it.toFile().readBytes().toBase64()
-                        )
-                    }.toTypedArray(),
-                    compilerResult.output,
-                    compilerResult.packagemanagerSuccess,
-                    compilerResult.packagemanagerExitValue,
-                    compilerResult.packagemanagerDurationMilliseconds,
-                    compilerResult.packagemanagerOutput
-                )
+    private fun RouteHandler.createDocument(id: String): String {
+        val storedFileTransfer = DocumentStorage.get(UUID.fromString(id))
+        if (storedFileTransfer.path == null) {
+            throw Exception("Path must not be null")
+        }
 
-                type(contentType = "application/json")
-                JsonTransformer.render(fileTransferDto)
-            } catch (e: PdfCompiler.CommandException) {
-                logger.info("Document '$id' could not be compiled: ", e.message)
-                type("application/json")
-                status(400)
-                "{\"message\":\"document '$id' could not be compiled: ${e.message}\"}"
-            }
+        return try {
+            val workingDirectory = storedFileTransfer.path
+            val compilerResult =
+                PdfCompiler.compile(workingDirectory, storedFileTransfer.requiredPackages ?: arrayOf())
+            val fileTransferDto = LatexResponseDTO(
+                compilerResult.success,
+                compilerResult.exitValue,
+                compilerResult.durationMilliseconds,
+                compilerResult.files.map {
+                    FileDTO(
+                        workingDirectory.relativize(it).toString(),
+                        it.toFile().readBytes().toBase64()
+                    )
+                }.toTypedArray(),
+                compilerResult.output,
+                compilerResult.packagemanagerSuccess,
+                compilerResult.packagemanagerExitValue,
+                compilerResult.packagemanagerDurationMilliseconds,
+                compilerResult.packagemanagerOutput
+            )
+
+            type(contentType = "application/json")
+            JsonTransformer.render(fileTransferDto)
+        } catch (e: PdfCompiler.CommandException) {
+            logger.info("Document '$id' could not be compiled: ", e.message)
+            type("application/json")
+            status(400)
+            "{\"message\":\"document '$id' could not be compiled: ${e.message}\"}"
         }
     }
 
@@ -65,10 +69,18 @@ object LatexController {
             } else {
                 val fileTransferDTO = Gson().fromJson(request.body(), LatexRequestDTO::class.java)
 
-                val latexWithUUID = DocumentStorage.add(fileTransferDTO)
-                status(201)
-                type("text/plain")
-                latexWithUUID.uuid
+                if (fileTransferDTO.blocking) {
+                    val latexWithUUID = DocumentStorage.add(fileTransferDTO)
+                    val json = createDocument(latexWithUUID.uuid.toString())
+                    status(201)
+                    DocumentStorage.remove(latexWithUUID.uuid)
+                    json
+                } else {
+                    val latexWithUUID = DocumentStorage.add(fileTransferDTO)
+                    status(201)
+                    type("text/plain")
+                    latexWithUUID.uuid
+                }
             }
         }
     }

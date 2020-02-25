@@ -50,6 +50,10 @@ object DocumentStorage {
         return markdownWithUUID
     }
 
+    fun remove(uuid: UUID) {
+        documents.remove(uuid)
+    }
+
     class DocumentNotFoundException(uuid: UUID) : Exception("Document '$uuid' does not exist")
     class InvalidPathException(filename: String) : Exception("Filename or path '$filename' is invalid")
 
