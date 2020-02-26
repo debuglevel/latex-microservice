@@ -59,6 +59,14 @@ object LatexController {
         }
     }
 
+    fun deleteOne(): RouteHandler.() -> Any {
+        return {
+            val id = params(":id")
+
+            DocumentStorage.remove(UUID.fromString(id))
+        }
+    }
+
     fun postOne(): RouteHandler.() -> Any {
         return {
             if (request.contentType() != "application/json") {

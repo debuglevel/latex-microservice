@@ -50,8 +50,9 @@ object DocumentStorage {
         return markdownWithUUID
     }
 
-    fun remove(uuid: UUID) {
-        documents.remove(uuid)
+    fun remove(uuid: UUID): Boolean {
+        val storedFileTransferDTO = documents.remove(uuid)
+        return storedFileTransferDTO != null
     }
 
     class DocumentNotFoundException(uuid: UUID) : Exception("Document '$uuid' does not exist")

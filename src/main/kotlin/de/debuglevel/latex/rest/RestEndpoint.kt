@@ -8,10 +8,7 @@ import de.debuglevel.microservices.utils.spark.configuredPort
 import de.debuglevel.microservices.utils.status.status
 import mu.KotlinLogging
 import spark.Spark.path
-import spark.kotlin.after
-import spark.kotlin.before
-import spark.kotlin.get
-import spark.kotlin.post
+import spark.kotlin.*
 
 
 /**
@@ -38,6 +35,8 @@ class RestEndpoint {
                 path("/:id") {
                     get("", "application/json", LatexController.getOneJson())
                     get("/", "application/json", LatexController.getOneJson())
+                    delete("", "application/json", LatexController.deleteOne())
+                    delete("/", "application/json", LatexController.deleteOne())
                 }
             }
         }
