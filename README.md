@@ -1,3 +1,9 @@
+<!--- some badges to display on the GitHub page -->
+![Travis (.org)](https://img.shields.io/travis/debuglevel/latex-microservice?label=Travis%20build)
+![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/debuglevel/latex-microservice?label=GitLab%20build)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/debuglevel/latex-microservice?sort=semver)
+![GitHub](https://img.shields.io/github/license/debuglevel/latex-microservice)
+
 # LaTeX Microservice
 This is a simple REST microservice prototype to compile LaTeX documents.
 
@@ -99,3 +105,6 @@ Also the `blocking` attribute can be set to `true` in JSON. Then the service wil
 # Docker
 ## Preinstall packages
 By setting e.g. `INSTALL_PACKAGES=12many a2ping` you can install packages at the startup of the container. This is not necessary, as MikTex will download missing packages while document compilation. But it can speed up compilations by shifting the download at the container startup instead of the document compilation. This might be useful, if you already know which packages will be required by the documents.
+
+# Configuration
+There is a `application.yml` included in the jar file. Its content can be modified and saved as a separate `application.yml` on the level of the jar file. Configuration can also be applied via the other supported ways of Micronaut (see <https://docs.micronaut.io/latest/guide/index.html#config>). For Docker, the configuration via environment variables is the most interesting one (see `docker-compose.yml`).

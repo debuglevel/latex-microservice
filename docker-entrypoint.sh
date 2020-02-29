@@ -17,4 +17,4 @@ if [[ ! -z "$INSTALL_PACKAGES" ]]; then
 fi
 
 echo "Starting microservice..."
-exec java -jar /app/microservice.jar
+exec java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -noverify -XX:TieredStopAtLevel=1 -Dcom.sun.management.jmxremote -jar /app/microservice.jar

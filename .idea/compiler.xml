@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="de.debuglevel.markdown.greeting-microservice.main" target="1.8" />
-      <module name="de.debuglevel.markdown.greeting-microservice.test" target="1.8" />
-      <module name="de.debuglevel.markdown.markdown-microservice.main" target="1.8" />
-      <module name="de.debuglevel.markdown.markdown-microservice.test" target="1.8" />
+      <module name="greeter-microservice.main" target="1.8" />
+      <module name="greeter-microservice.test" target="1.8" />
+      <module name="greeting-microservice.main" target="1.8" />
+      <module name="greeting-microservice.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
