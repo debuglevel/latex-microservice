@@ -3,8 +3,10 @@ package de.debuglevel.latex.packages
 import de.debuglevel.latex.command.Command
 import de.debuglevel.latex.command.CommandResult
 import mu.KotlinLogging
+import javax.inject.Singleton
 
-object MiktexPackageManager {
+@Singleton
+class MiktexPackageManager {
     private val logger = KotlinLogging.logger {}
 
     private val installedPackages = mutableSetOf<String>()
@@ -45,7 +47,7 @@ object MiktexPackageManager {
                 installedPackages.add(latexPackage)
             }
 
-            logger.debug { "Installing package '$latexPackage' done" }
+            logger.debug { "Installed package '$latexPackage'" }
             mpmCommandResult
         }
     }

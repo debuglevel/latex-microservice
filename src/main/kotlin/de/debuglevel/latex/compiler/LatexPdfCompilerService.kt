@@ -12,7 +12,7 @@ import kotlin.streams.toList
  * Compiles LaTeX to PDF
  */
 @Singleton
-class LatexPdfCompilerService {
+class LatexPdfCompilerService(private val miktexPackageManager: MiktexPackageManager) {
     private val logger = KotlinLogging.logger {}
     private val outputDirectory = "output"
 
@@ -24,7 +24,7 @@ class LatexPdfCompilerService {
         return try {
             logger.debug { "Compiling LaTeX to PDF..." }
 
-            val mpmCommandResult = MiktexPackageManager.install(requiredPackages)
+            val mpmCommandResult = miktexPackageManager.install(requiredPackages)
 
             val pdflatexCommandResult =
                 Command(
@@ -38,7 +38,7 @@ class LatexPdfCompilerService {
                 .toList()
                 .toTypedArray()
 
-            logger.debug { "Number of files in output directory: ${files.size}" }
+            logger.debug { "${files.size} files in output directory" }
 
             val compilerResult = LatexPdfCompilerResult(
                 pdflatexCommandResult,
@@ -47,7 +47,7 @@ class LatexPdfCompilerService {
                 workingDirectory
             )
 
-            logger.debug { "Compiling LaTeX to PDF done." }
+            logger.debug { "Compiled LaTeX to PDF" }
             compilerResult
         } catch (e: Exception) {
             // this exception is NOT raised if the exit value is != 0
