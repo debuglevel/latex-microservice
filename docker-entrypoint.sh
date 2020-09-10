@@ -5,7 +5,7 @@ echo "Updating MikTex package repository..."
 mpm --update-db
 RC=$?
 echo "Updated MikTex package repository (return code: $RC)"
-if [ $retVal -ne 0 ]; then
+if [ $RC -ne 0 ]; then
     echo "mpm returned with an error."
     echo "Printing /miktex/.miktex/texmfs/data/miktex/log/mpmcli.log which should contain some logs:"
     echo "==========="
